@@ -1,0 +1,35 @@
+
+{% load static %}
+<head>
+  <link rel="stylesheet" id="ample-home-css" href="{% static 'home.css' %}" type="text/css" media="all">
+  <div class="header">
+
+    <img src="static/whitelogo.png" alt="">
+
+    <p>Your schedules, goals and everything you need to achieve</p>
+  </div>
+</head>
+<body>
+
+<div id="bar">
+  <div class="navbar">
+  <a href="{% url 'home' %}" class="active">Home</a>
+  <a href="{% url 'schedules' %}">Schedules</a>
+  <a href="{% url 'set goals' %}">Goals</a>
+  {% if user.is_authenticated %}
+
+    <form class="logout-link" action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" name="button" class="button">Logout</button>
+    </form>
+
+  {% else %}
+    <a href="{% url 'sign in' %}" class="right">Sign Up</a>
+    <a href="{% url 'login' %}" class="right">Login</a>
+  {% endif %}
+</div>
+</div>
+{% block content %}
+
+{% endblock %}
+</body>

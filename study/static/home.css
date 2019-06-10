@@ -1,0 +1,294 @@
+body {
+  /*background-color: #7FDBFF;*/
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: arial;
+}
+
+h1 {
+    /*background-image: url(whitelogo.png);*/
+    font-family: arial;
+
+}
+
+
+p {
+
+    font-family: arial;
+    font-size: 20px;
+}
+
+h2{
+
+  text-align: center;
+  font-family: monospace;
+  font-size: 30px;
+
+}
+
+h3{
+  font-family: arial;
+}
+
+#cool {
+
+  width: 100px;
+  background-color: #ff0066;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 10px;
+
+}
+
+#cool:hover
+
+{
+  cursor:pointer;
+}
+
+#yeet {
+
+  width: 500px;
+  border: 1px solid #CCCCCC;
+  padding: 10px;
+  margin: 10px;
+  display: none;
+
+}
+
+#alis {
+
+  font-family: arial, helvetica, sans-serif;
+  cursor: pointer;
+
+}
+
+li {
+
+  text-align: left;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  font-style: arial;
+
+
+}
+
+form {
+
+
+}
+
+
+table th {
+  text-align: center;
+  background-color: black;
+  color: lightgrey;
+  padding: 4px 30px 4px 8px;
+  font-family: arial;
+
+
+
+}
+
+table td {
+  border: 1px solid black;
+  padding: 10px 8px 10px 8px;
+}
+
+#schedule table{
+  border-collapse: collapse;
+  text-align: center;
+  margin-left: 28%;
+  width: 70%;
+
+
+}
+
+.header {
+  padding: 50px;
+  text-align: center;
+  /*background: MediumSeaGreen;*/
+  background: #20B2AA;
+
+  color: white;
+  font-size: 30px;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  /*font-family: arial;*/
+  float: none;
+  font-family: "Anonymous Pro",monospace;
+}
+/*font-family: "Anonymous Pro",monospace;
+    font-weight: 700;
+    font-style: normal;*/
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+  transition: all .3s;
+}
+
+
+/* Right-aligned link */
+.navbar a.right {
+  float: right;
+
+}
+
+/* Change color on hover */
+.navbar a:hover {
+  background-color: #666;
+  color: white;
+}
+
+/* Active/current link */
+.navbar a.active {
+  --background-color: #666;
+  -color: white;
+}
+
+#main {
+    margin: 0 auto;
+}
+
+#add{
+  float: left;
+
+}
+
+#signIn {
+  text-align: left;
+  padding: 32px;
+  border: 2px solid black;
+
+}
+
+#boo{
+  text-align: left;
+
+}
+.logout-link .button{
+  padding: 14px 20px;
+  float: right;
+  font-family: "Anonymous Pro",monospace;
+  transition: all .3s;
+    transition-property: all;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+
+.logout-link .button:hover {
+  background-color: #666;
+  color: white;
+}
+
+.button {
+  background-color: #333;
+  border: none;
+  color: white;
+  text-align: center;
+  font-family: arial;
+  /*outline: 1px red solid;*/
+  bottom: 0;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+
+}
+
+table{
+  border-collapse: collapse;
+  text-align: center;
+  float: none;
+  padding: 20px;
+}
+
+.goals table{
+  margin: auto;
+}
+
+.goals caption{
+  font-family: "Anonymous Pro",monospace;
+  font-size: 20px;
+  padding: 3px;
+}
+.favhome table{
+  margin-left: 50px;
+}
+
+.favhome h1{
+  text-align: left;
+  margin-left: 50px;
+}
+
+#goalsForm {
+  text-align: left;
+  padding: 30px;
+  border: 2px solid black;
+  border-radius: 50px;
+  width: 20%;
+  margin-left: 5%;
+
+}
+
+section{
+  margin-left: 50px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-right: 700px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+#demo {
+  display: none;
+}
+
+.left {
+  width: 40%;
+  float: left;
+  padding: 5px;
+}
+
+.right {
+  width: 40%;
+  float: left;
+  padding: 5px;
+}
+
+.mid {
+  margin-left:auto;
+  margin-right:auto;
+  padding: 10px;
+}
+
+.mid1 {
+  text-align: center;
+  padding: 30px;
+}
+
+#schedulesForm{
+  text-align: left;
+  padding: 30px;
+  border: 2px solid black;
+  border-radius: 50px;
+  width: 20%;
+  margin-left: 5%;
+}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<!---<div class="info" id="info">
+  <h3>If you a new user and wish to have your actions on this web app save create an account</h3>
+  <p>*you can still use the features without an account however, nothing will be saved</p>
+</div>--->
+<h2>Create an account to save your schedules and goals on this site</h2>
+<div id="signIn">
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" name="" value="Sign Up">
+</form>
+</div>
+{% endblock %}

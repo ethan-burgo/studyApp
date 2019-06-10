@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+{% if current_user.is_authenticated %}
+  <h2>This is a place to create, edit and view your schedules</h2>
+  <div id = schedulesForm>
+    <form method="post">
+      <h3>Create a new schedule:</h3>
+      {% csrf_token %}
+      {{ create_scheduleForm.as_p }}
+      <input type="submit" name="set" value="Enter">
+    </form>
+  </div>
+  {% if usered %}
+  <h3>View</h3>
+  <form method="get">
+    {% csrf_token %}
+    <select class="" name="s">
+      {% for x in data %}
+      {% if current_user == x.user %}
+      <option>{{ x.title }}</option>
+      {% endif %}
+      {% endfor %}
+    </select>
+    <button type="submit" name="button" value='s'>Get</button>
+  </form>
+  {% endif %}
+{% else %}
+<h2>To use the schedule system you must be logged in. If you don't have an
+account click the sign up button</h2>
+{% endif %}
+{% endblock %}

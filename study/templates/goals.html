@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if input_form.is_valid %}
+<h1> </h1>
+<div class="goals">
+  <table>
+    <caption>{{ input_form.data.title }}</caption>
+    <tr>
+      <th>short terms</th>
+      <th>mid terms</th>
+      <th>long terms</th>
+    </tr>
+    <tr>
+      <td>{{ input_form.data.short_term }}</td>
+      <td>{{ input_form.data.mid_term }}</td>
+      <td>{{ input_form.data.long_term }}</td>
+    </tr>
+  </table>
+  {% if input_form.data.favorite %}
+  <h1>favorite</h1>
+  {% endif %}
+  <a href="{% url 'set goals' %}">Back</a>
+</div>
+
+{% else %}
+<h2>This is a place to set, edit and retrieve your goals</h2>
+{% if not user.is_authenticated %}
+<h3>you are not logged in. Your goals won't be saved if you leave the page</h3>
+{% endif %}
+{% if not got %}
+<div id="goalsForm">
+  <h3>Create new goals:</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ input_form.as_p }}
+    <input type="submit" name="set" value="Enter">
+  </form>
+</div>
+{% endif %}
+
+<!-- displaying the retrieved data in the same styled tabel -->
+{% for x in data %}
+{% if x.title == query %}
+
+<div class="goals">
+  <table>
+    <caption>{{ query }}</caption>
+
+    <tr>
+      <th>short terms</th>
+      <th>mid terms</th>
+      <th>long terms</th>
+    </tr>
+    <tr>
+      <td>{{ x.short_term }}</td>
+      <td>{{ x.mid_term }}</td>
+      <td>{{ x.long_term }}</td>
+    </tr>
+  </table>
+  <a href="{% url 'set goals' %}">Back</a>
+  {% endif %}
+  {% endfor %}
+
+  <h1> </h1>
+
+  <!-- form that gets previous goals -->
+
+{% if usered %}
+<h3>View</h3>
+<form method="get">
+  {% csrf_token %}
+  <select class="" name="y">
+    {% for x in data %}
+    {% if current_user == x.user %}
+    <option>{{ x.title }}</option>
+    {% endif %}
+    {% endfor %}
+  </select>
+  <button type="submit" name="button" value='y'>Get</button>
+</form>
+{% endif %}
+
+
+  {% endif %}
+
+
+  {% endblock %}

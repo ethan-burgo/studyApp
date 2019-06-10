@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class = "mid1">
+<table>
+  <caption>{{ got }}</caption>
+  <tr>
+    <th>Start - End</th>
+    <th>Activity</th>
+    <th>Description</th>
+  </tr>
+{% if days.day_name == Monday %}
+<tr>
+  <td colspan="4">Monday</td>
+
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 1%}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if days.day_name == Tuesday %}
+<tr>
+  <td colspan="3">Tuesday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 2 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Wednesday %}
+<tr>
+  <td colspan="3">Wednesday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 3 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Thursday %}
+<tr>
+  <td colspan="3">Thursday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 4 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Friday %}
+<tr>
+  <td colspan="3">Friday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 5 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Saturday %}
+<tr>
+  <td colspan="3">Saturday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 6 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Sunday %}
+<tr>
+  <td colspan="3">Sunday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 7 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+</table>
+<a href="{% url 'schedules' %}">Back</a>
+</div>
+
+
+<form method="get">
+  {% csrf_token %}
+  <select class="" name="s">
+    {% for x in dataAll %}
+    {% if current_user == x.user %}
+    {% if gots == x.title %}
+    <option selected>{{ x.title }}</option>
+    {% else %}
+    <option>{{ x.title }}</option>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </select>
+  <button type="submit" name="button" value='s'>Get</button>
+</form>
+
+{% endblock %}

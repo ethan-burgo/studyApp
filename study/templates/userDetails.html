@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>User Details help us refine a better experience for you</h2>
+<p>*optional</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Next</button>
+</form>
+
+{% endblock%}

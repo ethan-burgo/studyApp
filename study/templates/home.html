@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if user.is_authenticated %}
+  <h1>Welcome to StudyCore {{ user.first_name }}</h1>
+  <section>
+  <h1>Your Favourite Goals</h1>
+  {% for x in recentG %}
+    {% if x.favorite and current_user == x.user %}
+        <div class="favhome">
+        <table>
+          <caption>{{ x.title }}</caption>
+
+          <tr>
+            <th>short terms</th>
+            <th>mid terms</th>
+            <th>long terms</th>
+          </tr>
+          <tr>
+            <td>{{ x.short_term }}</td>
+            <td>{{ x.mid_term }}</td>
+            <td>{{ x.long_term }}</td>
+          </tr>
+        </table>
+        </div>
+        <h1>
+        </h1>
+
+    {% endif %}
+  {% endfor %}
+  </section>
+    {% for x in recentS %}
+    <h1>{{ x.user }}</h1>
+    {% endfor %}
+  </section>
+
+{% else %}
+  <div class="boo">
+    <h2>Welcome. Click on the sign up button in the top right to create an account. Already have an account? simply login!</h2>
+  </div>
+{% endif %}
+
+{% endblock %}

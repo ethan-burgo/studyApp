@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<script type="text/javascript" src="{% static '/script.js' %}"></script>
+
+<h1> </h1>
+
+{% for x in data %}
+{% if x.title == query and x.user == current_user %}
+
+<div class="goals">
+  <table>
+    <caption>{{ query }}</caption>
+
+    <tr>
+      <th>short terms</th>
+      <th>mid terms</th>
+      <th>long terms</th>
+    </tr>
+    <tr>
+      <td>{{ x.short_term }}</td>
+      <td>{{ x.mid_term }}</td>
+      <td>{{ x.long_term }}</td>
+    </tr>
+  </table>
+  <a href="{% url 'set goals' %}">Back</a>
+</div>
+{% endif %}
+{% endfor %}
+
+<form method="get">
+  {% csrf_token %}
+  <select class="" name="y1">
+    {% for x in data %}
+    {% if current_user == x.user %}
+    {% if goty1 == x.title %}
+    <option selected>{{ x.title }}</option>
+    {% else %}
+    <option>{{ x.title }}</option>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </select>
+  <button type="submit" name="button" value='y1'>Get</button>
+</form>
+
+<form method="get">
+  <button onclick="myFunction()" type="button" name="button" value="q">Edit</button>
+</form>
+
+<form method="get">
+  {% csrf_token %}
+  <button type="submit" name="B" value='B'>Delete</button>
+</form>
+
+<div id="demo">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="set" value="Enter">
+  </form>
+</div>
+
+{% endblock %}
