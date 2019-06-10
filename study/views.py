@@ -75,7 +75,7 @@ def schedule_adding(request):
     current_user = request.user
     title = request.session['query']
     got = Schedule.objects.get(title = title)
-    data = Schedule_Items.objects.all().order_by('day_name', 'start_time__hour', 'start_time__minute')
+    data = Schedule_Items.objects.all().order_by('day_name', 'start_time')
     days = WeekDay.objects.all().order_by('day_order')
     if request.method == "POST":
         schedule_detailsForm = schedule_details(request.POST)
@@ -101,7 +101,7 @@ def configSchedules_view(request):
     current_user = request.user
     queryS = request.session['queryS']
     got = Schedule.objects.get(title = queryS)
-    data = Schedule_Items.objects.all().order_by('day_name', 'start_time__hour', 'start_time__minute')
+    data = Schedule_Items.objects.all().order_by('day_name', 'start_time')
     days = WeekDay.objects.all().order_by('day_order')
     dataAll = Schedule.objects.all()
     gots = request.GET.get('s')
