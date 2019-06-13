@@ -7,6 +7,8 @@
   {{ schedule_detailsForm.as_p }}
   <input type="submit" name="set" value="Enter">
 </form>
+<a href="{% url 'schedules' %}" class="active">Done</a>
+
 </div>
 <div class="right">
 <table>
@@ -140,7 +142,5 @@
 {% endfor %}
 {% endif %}
 </table>
-
 </div>
-
 {% endblock%}

@@ -77,9 +77,15 @@ def schedule_adding(request):
     got = Schedule.objects.get(title = title)
     data = Schedule_Items.objects.all().order_by('day_name', 'start_time')
     days = WeekDay.objects.all().order_by('day_order')
+    done = request.GET.get('done')
+    if done:
+        return redirect('/schedulePage')
+        print("ok")
     if request.method == "POST":
         schedule_detailsForm = schedule_details(request.POST)
         if schedule_detailsForm.is_valid():
+            #start = schedule_detailsForm.cleaned_data['start_time']
+            #end = schedule_detailsForm.cleaned_data['end_time']
             base = schedule_detailsForm.save(commit=False)
             base.title = got
             base.save()

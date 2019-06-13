@@ -35,9 +35,16 @@ class create_schedule(forms.ModelForm):
             'favorite'
         ]
 
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
 class schedule_details(forms.ModelForm):
     class Meta:
         model = Schedule_Items
+        widgets = {
+            'start_time': TimeInput(),
+            'end_time': TimeInput()
+        }
         fields = [
             'day_name',
             'start_time',
