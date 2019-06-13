@@ -19,8 +19,11 @@ class goals(forms.ModelForm):
         fields = [
             'title',
             'short_term',
+            'short_time',
             'mid_term',
+            'mid_time',
             'long_term',
+            'long_time',
             'favorite'
         ]
 
