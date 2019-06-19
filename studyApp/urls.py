@@ -16,4 +16,6 @@ urlpatterns = [
     re_path(r'your goals', views.configGoals_view, name='your goals'),
     re_path(r'schedule_adding', views.schedule_adding, name='schedule_adding'),
     re_path(r'cool', views.configSchedules_view, name='cool'),
+    re_path(r'Edit_Schedules', views.EditSchedules_view, name='Edit_Schedules'),
+
 ]

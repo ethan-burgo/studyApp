@@ -19,6 +19,7 @@ def home(request):
 
     print(list)
     current_user = request.user
+#arguments passed to the html files
     args = {
         'recentG': recentG,
         'current_user': current_user,
@@ -84,8 +85,6 @@ def schedule_adding(request):
     if request.method == "POST":
         schedule_detailsForm = schedule_details(request.POST)
         if schedule_detailsForm.is_valid():
-            #start = schedule_detailsForm.cleaned_data['start_time']
-            #end = schedule_detailsForm.cleaned_data['end_time']
             base = schedule_detailsForm.save(commit=False)
             base.title = got
             base.save()
@@ -103,21 +102,27 @@ def schedule_adding(request):
 
 #edit delete schedules from the data base
 def configSchedules_view(request):
+    #query data base and getting data from html file
     get_form = get_goals(request.GET)
     current_user = request.user
     queryS = request.session['queryS']
     got = Schedule.objects.get(title = queryS)
-    data = Schedule_Items.objects.all().order_by('day_name', 'start_time')
+    data = Schedule_Items.objects.all().order_by('day_name', 'start_time')#!
     days = WeekDay.objects.all().order_by('day_order')
     dataAll = Schedule.objects.all()
     gots = request.GET.get('s')
+    deleteB = request.GET.get('B')
+    print(queryS)
 
     if gots:
         queryS = gots
         request.session['queryS'] = queryS
         got = Schedule.objects.get(title = queryS)
 
-        print(got)
+    if deleteB == 'B':
+        delete = got
+        delete.delete()
+        return redirect('/schedules')
 
     args = {
         'current_user': current_user,
@@ -130,6 +135,75 @@ def configSchedules_view(request):
 
     }
     return render(request, 'configSchedules.html', args)
+
+#editing schedules: add, delete, edit
+def EditSchedules_view(request):
+    current_user = request.user
+    queryS = request.session['queryS']
+    got = Schedule.objects.get(title = queryS)
+    data = Schedule_Items.objects.all().order_by('day_name', 'start_time')#!
+    days = WeekDay.objects.all().order_by('day_order')
+    dataAll = Schedule.objects.all()
+    form = schedule_details()
+    schedule_detailsForm = schedule_details()
+    editChoice = request.GET.get("editChoice")
+    deleteB = request.GET.get('B')
+    add = request.GET.get('q')
+    if add:
+        print(add)
+
+    if deleteB and editChoice:
+        instance = Schedule_Items.objects.get(id = int(editChoice))
+        print(instance)
+    if add:
+        editChoice == None
+
+    if editChoice:
+        instance = Schedule_Items.objects.get(id = int(editChoice))
+        request.session['queryC'] = editChoice
+        if request.method == "POST" and add == None:
+            form = schedule_details(request.POST, instance=instance)
+            if form.is_valid():
+                save = form.save(commit=False)
+                save.save()
+                return redirect('/Edit_Schedules')
+
+        else:
+            form = schedule_details(instance = instance)
+
+    if deleteB:
+        queryC = request.session['queryC']
+        delete = Schedule_Items.objects.get(id = queryC)
+        delete.delete()
+        return redirect('/Edit_Schedules')
+
+    if editChoice == None:
+        args = {'schedule_detailsForm': schedule_detailsForm}
+        if request.method == "POST":
+            schedule_detailsForm = schedule_details(request.POST)
+            if schedule_detailsForm.is_valid():
+                save = schedule_detailsForm.save(commit=False)
+                save.title = got
+                save.save()
+                return redirect('/Edit_Schedules')
+
+        else:
+            schedule_detailsForm = schedule_details()
+
+    args = {
+        'current_user': current_user,
+        'queryS': queryS,
+        'got': got,
+        'data': data,
+        'days': days,
+        'dataAll': dataAll,
+        'form': form,
+        'editChoice': editChoice,
+        'schedule_detailsForm': schedule_detailsForm,
+        'add': add
+    }
+
+    return render(request, 'EditSchedules.html', args)
 
 #sign in page with form to add new users
 def signInPage(request):

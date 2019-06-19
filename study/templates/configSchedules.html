@@ -15,7 +15,9 @@
 
 </tr>
 {% for x in data %}
+
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 1%}
+
 
 <tr>
   <td>{{ x.start_time}} - {{x.end_time}}</td>
@@ -152,5 +154,12 @@
   </select>
   <button type="submit" name="button" value='s'>Get</button>
 </form>
+
+<form method="get">
+  {% csrf_token %}
+  <button type="submit" name="B" value='B'>Delete Schedule</button>
+</form>
+
+<a href="{% url 'Edit_Schedules' %}">Edit</a>
 
 {% endblock %}
