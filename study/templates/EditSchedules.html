@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+{% for x in data %}
+{% if x.title == got and got.user == current_user %}
+{% endif %}
+{% endfor %}
+
+<div class = "mid1">
+<table>
+  <caption>{{ got }}</caption>
+  <tr>
+    <th>Start - End</th>
+    <th>Activity</th>
+    <th>Description</th>
+  </tr>
+{% if days.day_name == Monday %}
+<tr>
+  <td colspan="4">Monday</td>
+</tr>
+{% for x in data %}
+
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 1%}
+
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+  <td>
+      <form method="get">
+        <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+      </form>
+    <!--<button type="submit" name="submit" value="{{x.activity}}">Edit Activity</button>--></td>
+</tr>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if days.day_name == Tuesday %}
+<tr>
+  <td colspan="3">Tuesday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 2 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+  <td>
+    <form method="get">
+      <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+    </form>
+  </td>
+
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Wednesday %}
+<tr>
+  <td colspan="3">Wednesday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 3 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+  <td><form method="get">
+    <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+  </form></td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Thursday %}
+<tr>
+  <td colspan="3">Thursday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 4 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+  <td><form method="get">
+    <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+  </form></td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Friday %}
+<tr>
+  <td colspan="3">Friday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 5 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+  <td><form method="get">
+    <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+  </form></td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Saturday %}
+<tr>
+  <td colspan="3">Saturday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 6 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+  <td><form method="get">
+    <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+  </form></td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Sunday %}
+<tr>
+  <td colspan="3">Sunday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 7 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+  <td><form method="get">
+    <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+  </form></td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+</table>
+<a href="{% url 'cool' %}">Back</a>
+</div>
+
+{% if editChoice %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" name="set" value="Confirm Edit">
+</form>
+
+<form method="get">
+  <button type="submit" name="B" value="B">Delete Activity</button>
+</form>
+
+{% endif %}
+
+<form method="get">
+  <button type="submit" name="q" value="q">Add More Activities</button>
+</form>
+
+{% if not editChoice and add %}
+<div class="left">
+  <form method="post">
+    {% csrf_token %}
+    {{ schedule_detailsForm.as_p }}
+    <input type="submit" name="set" value="Add">
+  </form>
+</div>
+{% endif %}
+{% endblock %}
