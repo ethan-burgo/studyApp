@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if form.is_valid %}
+  {% for x in data %}
+
+  {% if x.title == carryQuery and x.user == current_user%}
+
+  <div class="goals">
+    <table>
+      <caption>{{ carryQuery }}</caption>
+
+      <tr>
+        <th></th>
+        <th>short terms</th>
+        <th>mid terms</th>
+        <th>long terms</th>
+      </tr>
+      <tr>
+        <td>GOALS</td>
+        <td>{{ x.short_term }}</td>
+        <td>{{ x.mid_term }}</td>
+        <td>{{ x.long_term }}</td>
+      </tr>
+      <tr>
+        <td>TIME</td>
+        <td>{{ x.short_time }}</td>
+        <td>{{ x.mid_time }}</td>
+        <td>{{ x.long_time }}</td>
+      </tr>
+    </table>
+    <a href="{% url 'set goals' %}">Back</a>
+  </div>
+  {% endif %}
+  {% endfor %}
+{% else %}
+
+<h2>It is important to set dead lines and time limits for you goals. This helps you stay on track</h2>
+{% for x in data %}
+
+{% if x.title == carryQuery and x.user == current_user%}
+<div class="goals">
+  <table>
+    <caption>{{ carryQuery }}</caption>
+
+    <tr>
+      <th></th>
+      <th>short terms</th>
+      <th>mid terms</th>
+      <th>long terms</th>
+    </tr>
+    <tr>
+      <td>GOALS</td>
+      <td>{{ x.short_term }}</td>
+      <td>{{ x.mid_term }}</td>
+      <td>{{ x.long_term }}</td>
+    </tr>
+    <tr>
+      <td>TIME</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+{% endif %}
+{% endfor %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" name="" value="Enter">
+</form>
+{% endif %}
+{% endblock %}
