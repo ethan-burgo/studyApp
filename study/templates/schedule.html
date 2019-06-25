@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+{% if same %}
+<script>
+    alert('You cannot have schedules with the same title');
+</script>
+{% endif %}
 {% if current_user.is_authenticated %}
   <h2>This is a place to create, edit and view your schedules</h2>
   <div id = schedulesForm>

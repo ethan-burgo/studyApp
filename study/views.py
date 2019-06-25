@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 from . models import User, Schedule, Goals, Schedule_Items, WeekDay
-from . forms import usersName, goals, get_goals, create_schedule, schedule_details
+from . forms import usersName, goals, get_goals, create_schedule, schedule_details, carry_goals, edit_goals
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
@@ -9,31 +9,41 @@ from django.contrib.auth.models import User
 #asks for users name
 def home(request):
     current_user = request.user
+    data = Schedule_Items.objects.all().order_by('day_name', 'start_time')
+    current_user = request.user
     recentG = Goals.objects.all()
     recentS = Schedule_Items.objects.all()
-    query = Schedule.objects.filter(favorite=True)
     list = []
-    for x in query:
-        object = Schedule_Items.objects.filter(title = x)
-        list.append(object)
+    if current_user.is_authenticated:
+        query = Schedule.objects.all().filter(favorite=True, user = current_user)
+        for x in query:
+            got = x
+            args={ 'got':got }
+            list.append(got)
+        got = list
 
-    print(list)
-    current_user = request.user
+        args = {'got': got}
+    else:
+        got = list
+    days = WeekDay.objects.all().order_by('day_order')
 #arguments passed to the html files
     args = {
         'recentG': recentG,
         'current_user': current_user,
         'recentS': recentS,
+        'days': days,
+        'got': got,
+        'data': data
         }
     return render(request, 'home.html', args)
 
 #schedule page
 def schedulePage(request):
-
     current_user = request.user
     data = Schedule.objects.all()
     queryS = request.GET.get('s')
     gotS = True
+    same = False
     if current_user.is_authenticated:
         usered = Schedule.objects.filter(user = current_user).all()
     else:
@@ -51,11 +61,15 @@ def schedulePage(request):
         if create_scheduleForm.is_valid():
             saved = create_scheduleForm.save(commit=False)
             saved.user = current_user
-            saved.save()
             q = create_scheduleForm.cleaned_data['title']
-            query = Schedule.objects.get(title = q).title
-            request.session['query'] = query
-            return redirect('/schedule_adding')
+            if Schedule.objects.all().filter(user = current_user, title = q):
+                same = True
+                request.session['same'] = same
+            else:
+                saved.save()
+                query = Schedule.objects.get(title = q, user = current_user).title
+                request.session['query'] = query
+                return redirect('/schedule_adding')
 
     else:
         create_scheduleForm = create_schedule()
@@ -66,7 +80,8 @@ def schedulePage(request):
         'data': data,
         'current_user': current_user,
         'queryS': queryS,
-        'usered': usered
+        'usered': usered,
+        'same': same
     }
 
     return render(request, 'schedule.html', args)
@@ -75,10 +90,15 @@ def schedulePage(request):
 def schedule_adding(request):
     current_user = request.user
     title = request.session['query']
-    got = Schedule.objects.get(title = title)
+    got = Schedule.objects.get(title = title, user = current_user)
     data = Schedule_Items.objects.all().order_by('day_name', 'start_time')
     days = WeekDay.objects.all().order_by('day_order')
     done = request.GET.get('done')
+    editChoice = request.GET.get("editChoice")
+    request.session['queryS'] = editChoice
+    if editChoice:
+        return redirect('/Edit_Schedules')
+
     if done:
         return redirect('/schedulePage')
         print("ok")
@@ -106,7 +126,7 @@ def configSchedules_view(request):
     get_form = get_goals(request.GET)
     current_user = request.user
     queryS = request.session['queryS']
-    got = Schedule.objects.get(title = queryS)
+    got = Schedule.objects.get(title = queryS, user = current_user)
     data = Schedule_Items.objects.all().order_by('day_name', 'start_time')#!
     days = WeekDay.objects.all().order_by('day_order')
     dataAll = Schedule.objects.all()
@@ -140,21 +160,27 @@ def configSchedules_view(request):
 def EditSchedules_view(request):
     current_user = request.user
     queryS = request.session['queryS']
-    got = Schedule.objects.get(title = queryS)
+    got = Schedule.objects.get(title = queryS, user = current_user)
     data = Schedule_Items.objects.all().order_by('day_name', 'start_time')#!
     days = WeekDay.objects.all().order_by('day_order')
     dataAll = Schedule.objects.all()
     form = schedule_details()
+    formf = create_schedule()
     schedule_detailsForm = schedule_details()
     editChoice = request.GET.get("editChoice")
     deleteB = request.GET.get('B')
     add = request.GET.get('q')
-    if add:
-        print(add)
+
+    if request.method == "POST":
+        formf = create_schedule(request.POST, instance = got)
+        if formf.is_valid():
+            formf.save()
+
+    if request.method == "GET":
+        formf = create_schedule(instance = got)
 
     if deleteB and editChoice:
         instance = Schedule_Items.objects.get(id = int(editChoice))
-        print(instance)
     if add:
         editChoice == None
 
@@ -163,6 +189,7 @@ def EditSchedules_view(request):
         request.session['queryC'] = editChoice
         if request.method == "POST" and add == None:
             form = schedule_details(request.POST, instance=instance)
+
             if form.is_valid():
                 save = form.save(commit=False)
                 save.save()
@@ -200,7 +227,8 @@ def EditSchedules_view(request):
         'form': form,
         'editChoice': editChoice,
         'schedule_detailsForm': schedule_detailsForm,
-        'add': add
+        'add': add,
+        'formf': formf
     }
 
     return render(request, 'EditSchedules.html', args)
@@ -265,6 +293,7 @@ def setGoals_view(request):
     get_form = get_goals(request.GET)
     query = request.GET.get('y')
     got = True
+    same = False
     if current_user.is_authenticated:
         usered = Goals.objects.filter(user = current_user).all()
     else:
@@ -277,24 +306,22 @@ def setGoals_view(request):
         request.session['query'] = query
         return redirect('/your goals')
 
-    args = {
-        'input_form': input_form,
-        'data': data,
-        'current_user': current_user,
-        'query': query,
-        'got': got,
-        'usered': usered
-    }
-
     if request.method == "POST":
         if current_user.is_authenticated:
             input_form = goals(request.POST)
             args = {'input_form': input_form}
-
             if input_form.is_valid():
                 base = input_form.save(commit=False)
                 base.user = current_user
-                base.save()
+
+                carry = input_form.cleaned_data['title']
+                if Goals.objects.all().filter(user = current_user, title = carry):
+                    same = True
+                    request.session['same'] = same
+                else:
+                    base.save()
+                    request.session['carryQuery'] = carry
+                    return redirect('/carry_goals')
 
         else:
             input_form = goals(request.POST)
@@ -304,6 +331,16 @@ def setGoals_view(request):
         input_form = goals()
         get_form = get_goals(request.GET)
 
+    print(same)
+    args = {
+        'input_form': input_form,
+        'data': data,
+        'current_user': current_user,
+        'query': query,
+        'got': got,
+        'usered': usered,
+        'same': same
+    }
 
     return render(request, 'goals.html', args)
 
@@ -311,7 +348,7 @@ def setGoals_view(request):
 def configGoals_view(request):
     current_user = request.user
     data = Goals.objects.all()
-    form = goals()
+    form = edit_goals()
     get_form = get_goals(request.GET)
     query = request.session['query']
     edit = request.GET.get('q')
@@ -333,14 +370,14 @@ def configGoals_view(request):
         return redirect('/set goals')
 
     if request.method == "POST":
-        form = goals(request.POST, instance=instance)
+        form = edit_goals(request.POST, instance=instance)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()
 
     if request.method == "GET":
         get_form = get_goals(request.GET)
-        form = goals(instance=instance)
+        form = edit_goals(instance=instance)
 
     args = {
         'data': data,
@@ -352,3 +389,27 @@ def configGoals_view(request):
     }
 
     return render(request, 'configGoals.html', args)
+
+#adding time fields to your goals
+def carryGoals_view(request):
+    carryQuery = request.session['carryQuery']
+    carryQuery = str(carryQuery)
+    data = Goals.objects.all()
+    current_user = request.user
+    form = carry_goals()
+    instance = Goals.objects.get(title = carryQuery, user = current_user)
+
+    if request.method == "POST":
+        form = carry_goals(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+    else:
+        form = carry_goals()
+
+    args = {
+        'form': form,
+        'carryQuery': carryQuery,
+        'data': data,
+        'current_user': current_user
+    }
+    return render(request, 'carryGoals.html', args)

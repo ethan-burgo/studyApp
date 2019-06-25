@@ -1,7 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class = "mid1">
+<div class = "mid1" id="conS">
+
+
+  <form method="get">
+    {% csrf_token %}
+    <select class="" name="s">
+      {% for x in dataAll %}
+      {% if current_user == x.user %}
+      {% if gots == x.title %}
+      <option selected>{{ x.title }}</option>
+      {% else %}
+      <option>{{ x.title }}</option>
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+    </select>
+    <button type="submit" name="button" value='s'>Get</button>
+  </form>
+
+
+  <a href="{% url 'Edit_Schedules' %}">Edit</a>
+  <a href="{% url 'schedules' %}">Back</a>
 <table>
   <caption>{{ got }}</caption>
   <tr>
@@ -135,31 +156,9 @@
 {% endfor %}
 {% endif %}
 </table>
-<a href="{% url 'schedules' %}">Back</a>
-</div>
-
-
-<form method="get">
-  {% csrf_token %}
-  <select class="" name="s">
-    {% for x in dataAll %}
-    {% if current_user == x.user %}
-    {% if gots == x.title %}
-    <option selected>{{ x.title }}</option>
-    {% else %}
-    <option>{{ x.title }}</option>
-    {% endif %}
-    {% endif %}
-    {% endfor %}
-  </select>
-  <button type="submit" name="button" value='s'>Get</button>
-</form>
-
 <form method="get">
   {% csrf_token %}
   <button type="submit" name="B" value='B'>Delete Schedule</button>
 </form>
-
-<a href="{% url 'Edit_Schedules' %}">Edit</a>
-
+</div>
 {% endblock %}

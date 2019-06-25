@@ -3,7 +3,8 @@
 
 {% if user.is_authenticated %}
   <h1>Welcome to StudyCore {{ user.first_name }}</h1>
-  <section>
+  <div class="content">
+
   <h1>Your Favourite Goals</h1>
   {% for x in recentG %}
     {% if x.favorite and current_user == x.user %}
@@ -12,14 +13,22 @@
           <caption>{{ x.title }}</caption>
 
           <tr>
+            <th></th>
             <th>short terms</th>
             <th>mid terms</th>
             <th>long terms</th>
           </tr>
           <tr>
+            <td>GOALS</td>
             <td>{{ x.short_term }}</td>
             <td>{{ x.mid_term }}</td>
             <td>{{ x.long_term }}</td>
+          </tr>
+          <tr>
+            <td>TIME</td>
+            <td>{{ x.short_time }}</td>
+            <td>{{ x.mid_time }}</td>
+            <td>{{ x.long_time }}</td>
           </tr>
         </table>
         </div>
@@ -28,11 +37,10 @@
 
     {% endif %}
   {% endfor %}
-  </section>
+
     {% for x in recentS %}
     <h1>{{ x.user }}</h1>
     {% endfor %}
-  </section>
 
 {% else %}
   <div class="boo">
@@ -40,4 +48,145 @@
   </div>
 {% endif %}
 
+<div class="favhome">
+  <h1>Your favorite schedules</h1>
+<section>
+{% for got in got %}
+<div class="right">
+<table>
+  <caption>{{ got }}</caption>
+  <tr>
+    <th>Start - End</th>
+    <th>Activity</th>
+    <th>Description</th>
+  </tr>
+{% if days.day_name == Monday %}
+<tr>
+  <td colspan="4">Monday</td>
+
+</tr>
+
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 1%}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if days.day_name == Tuesday %}
+<tr>
+  <td colspan="3">Tuesday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 2 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Wednesday %}
+<tr>
+  <td colspan="3">Wednesday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 3 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Thursday %}
+<tr>
+  <td colspan="3">Thursday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 4 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Friday %}
+<tr>
+  <td colspan="3">Friday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 5 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Saturday %}
+<tr>
+  <td colspan="3">Saturday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 6 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if days.day_name == Sunday %}
+<tr>
+  <td colspan="3">Sunday</td>
+</tr>
+{% for x in data %}
+{% if x.title == got and got.user == current_user and x.day_name.day_order == 7 %}
+
+<tr>
+  <td>{{ x.start_time}} - {{x.end_time}}</td>
+  <td>{{x.activity}}</td>
+  <td>{{x.description}}</td>
+</tr>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+</table>
+</div>
+{% endfor %}
+</div>
+</div>
 {% endblock %}

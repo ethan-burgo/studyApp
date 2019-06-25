@@ -19,6 +19,29 @@ class goals(forms.ModelForm):
         fields = [
             'title',
             'short_term',
+            'mid_term',
+            'long_term',
+            'favorite'
+        ]
+
+class carry_goals(forms.ModelForm):
+    class Meta:
+        model = Goals
+        fields = [
+            'short_time',
+            'mid_time',
+            'long_time'
+        ]
+
+class get_goals(forms.Form):
+    data_title = forms.CharField(max_length=30)
+
+class edit_goals(forms.ModelForm):
+    class Meta:
+        model = Goals
+        fields = [
+            'title',
+            'short_term',
             'short_time',
             'mid_term',
             'mid_time',
@@ -26,9 +49,6 @@ class goals(forms.ModelForm):
             'long_time',
             'favorite'
         ]
-
-class get_goals(forms.Form):
-    data_title = forms.CharField(max_length=30)
 
 class create_schedule(forms.ModelForm):
     class Meta:

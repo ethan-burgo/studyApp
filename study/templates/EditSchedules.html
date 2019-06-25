@@ -2,11 +2,19 @@
 {% block content %}
 {% load static %}
 
+<div class="content">
+<div id= "editTitle">
+  <h3>Edit the title/favorite</h3>
+<form method="post">
+  {% csrf_token %}
+  {{ formf.as_p }}
+  <input type="submit" name="" value="Edit Title/fav">
+</form>
+</div>
 {% for x in data %}
 {% if x.title == got and got.user == current_user %}
 {% endif %}
 {% endfor %}
-
 <div class = "mid1">
 <table>
   <caption>{{ got }}</caption>
@@ -14,6 +22,7 @@
     <th>Start - End</th>
     <th>Activity</th>
     <th>Description</th>
+    <th>Edit</th>
   </tr>
 {% if days.day_name == Monday %}
 <tr>
@@ -39,7 +48,7 @@
 {% endif %}
 {% if days.day_name == Tuesday %}
 <tr>
-  <td colspan="3">Tuesday</td>
+  <td colspan="4">Tuesday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 2 %}
@@ -63,7 +72,7 @@
 
 {% if days.day_name == Wednesday %}
 <tr>
-  <td colspan="3">Wednesday</td>
+  <td colspan="4">Wednesday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 3 %}
@@ -84,7 +93,7 @@
 
 {% if days.day_name == Thursday %}
 <tr>
-  <td colspan="3">Thursday</td>
+  <td colspan="4">Thursday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 4 %}
@@ -105,7 +114,7 @@
 
 {% if days.day_name == Friday %}
 <tr>
-  <td colspan="3">Friday</td>
+  <td colspan="4">Friday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 5 %}
@@ -126,7 +135,7 @@
 
 {% if days.day_name == Saturday %}
 <tr>
-  <td colspan="3">Saturday</td>
+  <td colspan="4">Saturday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 6 %}
@@ -147,7 +156,7 @@
 
 {% if days.day_name == Sunday %}
 <tr>
-  <td colspan="3">Sunday</td>
+  <td colspan="4">Sunday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 7 %}
@@ -170,29 +179,34 @@
 </div>
 
 {% if editChoice %}
+<form method="get">
+  <button type="submit" name="q" value="q">Add More Activities</button>
+</form>
+<div id="editS">
+
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" name="set" value="Confirm Edit">
 </form>
-
 <form method="get">
   <button type="submit" name="B" value="B">Delete Activity</button>
 </form>
+</div>
+
 
 {% endif %}
 
-<form method="get">
-  <button type="submit" name="q" value="q">Add More Activities</button>
-</form>
 
 {% if not editChoice and add %}
-<div class="left">
+
+<div class="left" id="addS">
   <form method="post">
     {% csrf_token %}
     {{ schedule_detailsForm.as_p }}
     <input type="submit" name="set" value="Add">
   </form>
+</div>
 </div>
 {% endif %}
 {% endblock %}
