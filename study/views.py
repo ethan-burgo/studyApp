@@ -57,6 +57,7 @@ def schedulePage(request):
         request.session['queryS'] = queryS
         return redirect('/cool')
 
+#form for adding title and favorite for the first step of the schedule
     if request.method == "POST":
         create_scheduleForm = create_schedule(request.POST)
         if create_scheduleForm.is_valid():
@@ -101,6 +102,7 @@ def schedule_adding(request):
         print(request.session['queryS'])
         return redirect('/Edit_Schedules')
 
+#adding activities to the schedules
     if done:
         return redirect('/schedulePage')
         print("ok")
@@ -124,7 +126,7 @@ def schedule_adding(request):
 
 #edit delete schedules from the data base
 def configSchedules_view(request):
-    #query data base and getting data from html file
+#query data base and getting data from html file
     get_form = get_goals(request.GET)
     current_user = request.user
     queryS = request.session['queryS']
@@ -141,6 +143,7 @@ def configSchedules_view(request):
         request.session['queryS'] = queryS
         got = Schedule.objects.get(title = queryS, user = current_user)
 
+#to delete complete schedules
     if deleteB == 'B':
         delete = got
         delete.delete()
@@ -283,6 +286,7 @@ def logout_view(request):
 
 #extra user details views
 def userDetails_view(request):
+#extra user details form
     if request.method == "POST":
         form = usersName(request.POST, instance=request.user)
         current_user = request.user
@@ -374,12 +378,14 @@ def configGoals_view(request):
     id = Goals.objects.get(title=query, user=current_user).id
     instance = get_object_or_404(Goals, id=id)
 
+#deleting goals function
     if deleteB == 'B':
         query = request.session['query']
         delete = Goals.objects.get(title=query, user = current_user)
         delete.delete()
         return redirect('/set goals')
 
+#editing goals form
     if request.method == "POST":
         form = edit_goals(request.POST, instance=instance)
         if form.is_valid():
@@ -410,6 +416,7 @@ def carryGoals_view(request):
     form = carry_goals()
     instance = Goals.objects.get(title = carryQuery, user = current_user)
 
+#adding the time fields form 2nd step of goals 
     if request.method == "POST":
         form = carry_goals(request.POST, instance=instance)
         if form.is_valid():
