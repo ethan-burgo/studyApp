@@ -32,7 +32,9 @@
       <td>{{ x.long_time }}</td>
     </tr>
   </table>
-  <a href="{% url 'set goals' %}">Back</a>
+  <div id="conS">
+    <a href="{% url 'set goals' %}">Back</a>
+  </div>
 </div>
 {% endif %}
 {% endfor %}
@@ -53,6 +55,7 @@
   <button type="submit" name="button" value='y1'>Get</button>
 </form>
 
+<div id="conS">
 <form method="get">
   <button onclick="myFunction()" type="button" name="button" value="q">Edit</button>
 </form>
@@ -61,6 +64,7 @@
   {% csrf_token %}
   <button type="submit" name="B" value='B'>Delete</button>
 </form>
+
 
 <div id="demo">
   <form method="post">

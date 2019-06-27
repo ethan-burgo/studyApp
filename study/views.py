@@ -26,6 +26,7 @@ def home(request):
     else:
         got = list
     days = WeekDay.objects.all().order_by('day_order')
+
 #arguments passed to the html files
     args = {
         'recentG': recentG,
@@ -97,6 +98,7 @@ def schedule_adding(request):
     editChoice = request.GET.get("editChoice")
     request.session['queryS'] = editChoice
     if editChoice:
+        print(request.session['queryS'])
         return redirect('/Edit_Schedules')
 
     if done:
@@ -137,7 +139,7 @@ def configSchedules_view(request):
     if gots:
         queryS = gots
         request.session['queryS'] = queryS
-        got = Schedule.objects.get(title = queryS)
+        got = Schedule.objects.get(title = queryS, user = current_user)
 
     if deleteB == 'B':
         delete = got
@@ -158,8 +160,10 @@ def configSchedules_view(request):
 
 #editing schedules: add, delete, edit
 def EditSchedules_view(request):
+#variables needed and established before anything can happen
     current_user = request.user
     queryS = request.session['queryS']
+    print(queryS)
     got = Schedule.objects.get(title = queryS, user = current_user)
     data = Schedule_Items.objects.all().order_by('day_name', 'start_time')#!
     days = WeekDay.objects.all().order_by('day_order')
@@ -171,19 +175,23 @@ def EditSchedules_view(request):
     deleteB = request.GET.get('B')
     add = request.GET.get('q')
 
+#editing the title/fav function
     if request.method == "POST":
         formf = create_schedule(request.POST, instance = got)
         if formf.is_valid():
             formf.save()
+            request.session['queryS'] = formf.cleaned_data['title']
 
     if request.method == "GET":
         formf = create_schedule(instance = got)
 
+#the use of buttons to help with displaying things and variables
     if deleteB and editChoice:
         instance = Schedule_Items.objects.get(id = int(editChoice))
     if add:
         editChoice == None
 
+#edit function for particular schedule Activities
     if editChoice:
         instance = Schedule_Items.objects.get(id = int(editChoice))
         request.session['queryC'] = editChoice
@@ -198,12 +206,14 @@ def EditSchedules_view(request):
         else:
             form = schedule_details(instance = instance)
 
+#delete function for particular schedule Activities
     if deleteB:
         queryC = request.session['queryC']
         delete = Schedule_Items.objects.get(id = queryC)
         delete.delete()
         return redirect('/Edit_Schedules')
 
+#adding function to add more activities to the schedule
     if editChoice == None:
         args = {'schedule_detailsForm': schedule_detailsForm}
         if request.method == "POST":
@@ -217,6 +227,7 @@ def EditSchedules_view(request):
         else:
             schedule_detailsForm = schedule_details()
 
+#arguments passed to html file that enable certain things to be displayed
     args = {
         'current_user': current_user,
         'queryS': queryS,
@@ -365,7 +376,7 @@ def configGoals_view(request):
 
     if deleteB == 'B':
         query = request.session['query']
-        delete = Goals.objects.get(title=query)
+        delete = Goals.objects.get(title=query, user = current_user)
         delete.delete()
         return redirect('/set goals')
 

@@ -183,16 +183,7 @@ table td {
   text-align: left;
 
 }
-.logout-link .button{
-  padding: 14px 20px;
-  float: right;
-  font-family: "Anonymous Pro",monospace;
-  transition: all .3s;
-    transition-property: all;
-    transition-duration: 0.3s;
-    transition-timing-function: ease;
-    transition-delay: 0s;
-}
+
 
 .logout-link .button:hover {
   background-color: #666;
@@ -304,6 +295,10 @@ label {
   display: inline-block;
 }
 
+.menu {
+  float: right;
+}
+
 input[type=button], input[type=submit], input[type=reset], button {
   background-color: #20B2AA;
   border: none;
@@ -314,6 +309,18 @@ input[type=button], input[type=submit], input[type=reset], button {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 2px;
+}
+
+.logout-link .button{
+  padding: 10px 20px;
+  float: right;
+  font-family: "Anonymous Pro",monospace;
+  transition: all .3s;
+    transition-property: all;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+
 }
 
 input {
@@ -372,7 +379,7 @@ select {
 }
 
 #addS {
-  margin-top: 50px;
+  margin-left: 40px;
 }
 
 #conS {
@@ -406,17 +413,18 @@ select {
 
 @media only screen and (max-width: 960px) {
   body{min-width: 320px;}
-  .left, .mid1, #addS{
+  .left, .mid1, #addS, #editS{
     float: none;
     width: 100%;
   }
   #signIn {
     width: 80%;
   }
-  #addS {
+  #addS, #editS {
     width: 320px;
     margin: 10px;
   }
+
   .content {
     width: 100%;
   }

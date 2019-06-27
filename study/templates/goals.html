@@ -10,8 +10,8 @@
 </script>
 {% endif %}
 {% if not user.is_authenticated %}
-<h3>you are not logged in. Your goals won't be saved if you leave the page</h3>
-{% endif %}
+<h3>you need an account to use the goals functions</h3>
+{% else %}
 {% if not got %}
 <div id="goalsForm">
   <h3>Create a new goal:</h3>
@@ -23,7 +23,7 @@
 </div>
 {% endif %}
 
-<!-- displaying the retrieved data in the same styled tabel -->
+<!-- displaying the retrieved data in the same styled tabel
 {% for x in data %}
 {% if x.title == query %}
 
@@ -44,7 +44,7 @@
   </table>
   <a href="{% url 'set goals' %}">Back</a>
   {% endif %}
-  {% endfor %}
+  {% endfor %} -->
 
   <h1> </h1>
 
@@ -63,6 +63,7 @@
   </select>
   <button type="submit" name="button" value='y'>Get</button>
 </form>
+{% endif %}
 {% endif %}
 
 

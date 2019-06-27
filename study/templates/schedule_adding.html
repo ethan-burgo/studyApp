@@ -7,8 +7,10 @@
   {{ schedule_detailsForm.as_p }}
   <input type="submit" name="set" value="Enter">
 </form>
-<a href="{% url 'schedules' %}" class="active">Done</a>
-<h3>You can edit this later if you need</h3>
+<div id="conS">
+  <h3>If your finished click done</h3>
+<a href="{% url 'schedules' %}">Done</a>
+</div>
 </div>
 <div class="right">
 <table>
@@ -20,7 +22,7 @@
   </tr>
 {% if days.day_name == Monday %}
 <tr>
-  <td colspan="4">Monday</td>
+  <td colspan="3">Monday</td>
 
 </tr>
 {% for x in data %}
@@ -30,9 +32,6 @@
   <td>{{ x.start_time}} - {{x.end_time}}</td>
   <td>{{x.activity}}</td>
   <td>{{x.description}}</td>
-  <td><form method="get">
-    <button type="submit" name="editChoice" value="{{x}}">edit</button>
-  </form></td>
 </tr>
 {% endif %}
 {% endfor %}
@@ -129,7 +128,7 @@
 
 {% if days.day_name == Sunday %}
 <tr>
-  <td colspan="3">Sunday</td>
+  <td colspan="4">Sunday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 7 %}
@@ -138,12 +137,18 @@
   <td>{{ x.start_time}} - {{x.end_time}}</td>
   <td>{{x.activity}}</td>
   <td>{{x.description}}</td>
+  <td><form method="get">
+    <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
+  </form></td>
 </tr>
-
 
 {% endif %}
 {% endfor %}
 {% endif %}
 </table>
+<form method="get">
+  <button type="submit" name="editChoice" value="{{got}}">edit</button>
+</form>
 </div>
+
 {% endblock%}

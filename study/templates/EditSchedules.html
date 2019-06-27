@@ -175,15 +175,18 @@
 {% endfor %}
 {% endif %}
 </table>
+<div id="conS">
 <a href="{% url 'cool' %}">Back</a>
 </div>
+</div>
 
-{% if editChoice %}
+
 <form method="get">
   <button type="submit" name="q" value="q">Add More Activities</button>
 </form>
-<div id="editS">
 
+{% if editChoice %}
+<div id="editS">
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
