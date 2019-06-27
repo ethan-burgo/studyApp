@@ -128,7 +128,7 @@
 
 {% if days.day_name == Sunday %}
 <tr>
-  <td colspan="4">Sunday</td>
+  <td colspan="3">Sunday</td>
 </tr>
 {% for x in data %}
 {% if x.title == got and got.user == current_user and x.day_name.day_order == 7 %}
@@ -137,9 +137,7 @@
   <td>{{ x.start_time}} - {{x.end_time}}</td>
   <td>{{x.activity}}</td>
   <td>{{x.description}}</td>
-  <td><form method="get">
-    <button type="submit" name="editChoice" value="{{x.id}}">edit</button>
-  </form></td>
+
 </tr>
 
 {% endif %}
